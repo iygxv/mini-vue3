@@ -1,0 +1,4 @@
+const shared  = {}
+export {
+  shared
+}
