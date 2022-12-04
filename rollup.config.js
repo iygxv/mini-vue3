@@ -35,6 +35,7 @@ const options = pkg.buildOptions // 获取到自定义选项
 
 function createConfig(format, output) {
   output.name = options.name
+  output.sourcemap = true
   // 生产rollup配置
   return {
     input: resolve('src/index.ts'),
