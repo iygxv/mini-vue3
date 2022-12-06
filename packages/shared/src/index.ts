@@ -2,3 +2,7 @@
 // 这里是说 返回true 就说明 val 是对象类型
 export const isObject = (val: unknown): val is Record<any, any> => val !== null && typeof val === 'object'
 export const extend = Object.assign
+
+
+// 比较值是否改变
+export const hasChanged = (value: any, oldValue: any): boolean => !Object.is(value, oldValue)

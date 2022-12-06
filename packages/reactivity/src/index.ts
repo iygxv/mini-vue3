@@ -5,3 +5,9 @@ export {
   shallowReadonly
 
 } from './reactive'
+
+
+export {
+  ref,
+  shallowRef
+} from './ref'
