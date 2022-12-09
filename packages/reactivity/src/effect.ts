@@ -82,9 +82,10 @@ export function track(target, type, key) {
   // console.log(targetMap);
 
 }
+console.log(targetMap);
 
 // 触发依赖(effect())
-export function trigger(target, type, key, value, oldVal?) {
+export function trigger(target, type, key, value?, oldVal?) {
   console.log(target, type, key, value, oldVal);
 
   // 如果这个对象没有收集过effect
@@ -146,6 +147,7 @@ export function trigger(target, type, key, value, oldVal?) {
    }
   }  
   effects.forEach((effect: any) => {
+    console.log(effect.options);
     if (effect.options.scheduler) {
       effect.options.scheduler()
     } else {

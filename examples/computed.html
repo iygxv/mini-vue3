@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+<body>
+  <script src="../packages/reactivity/dist/reactivity.global.js"></script>
+  <div id="app"></div>
+  <script>
+    const { ref, reactive, effect, computed }  = VueReactivity
+
+    // computed 只有在访问.value的时候才会执行用户的函数
+
+    // computed定义的变量是仅读
+    const my_name = ref('vvv')
+      const name = computed(() => {
+        return my_name.value
+      })
+      effect(() => {
+        app.innerHTML = name.value
+      })
+      setTimeout(() => {
+        my_name.value = '1888'
+      }, 1000)
+  </script>
+</body>
+</html>

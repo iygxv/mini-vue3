@@ -7,6 +7,8 @@ export const extend = Object.assign
 // 比较值是否改变
 export const hasChanged = (value: any, oldValue: any): boolean => !Object.is(value, oldValue)
 
+export const isFunction = (val): val is Function => typeof val === 'function'
+export const isString = (val: unknown): val is string => typeof val === 'string'
 // 是否数组
 export const isArray = Array.isArray
 // 是否为整数key

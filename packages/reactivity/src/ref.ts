@@ -1,4 +1,6 @@
 import { hasChanged, isObject } from "@vue/shared"
+import { track, trigger } from "./effect"
+import { trackOpTypes, TriggerOrTypes } from "./operators"
 import { reactive } from "./reactive"
 
 // 转reactive
@@ -41,13 +43,15 @@ class RefImpl {
   // 代理
   get value() {
     // 收集依赖
+    track(this, trackOpTypes.GET, 'value')
     return this._value
   }
   set value(newVal) {
     if(hasChanged(newVal, this._rawValue)) {
-       //触发依赖
        this._rawValue = newVal
        this._value =  this.__v_isShallow ? newVal : toReactive(newVal)
+       // 触发依赖
+       trigger(this, TriggerOrTypes.SET, 'value', newVal)
     }
   }
 }
