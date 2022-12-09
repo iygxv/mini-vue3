@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <div id="app"></div>
+    <script>
+      class RefImpl {
+        constructor(rawValue) {
+          this._value = rawValue
+        }
+        get value() {
+          return this._value
+        }
+        set value(newVal) {
+          this._value = newVal
+        }
+      }
+
+      function ref(rawValue) {
+        return new RefImpl(rawValue)
+      }
+
+      const name = ref('vvv')
+      console.log(name)
+      console.log(name.value)
+
+
+      function reactive(obj) {
+        const proxy = new Proxy(obj, {
+          get(target, key, receiver) {
+            return Reflect.get(target, [key], receiver)
+          },
+          set(target, key, value, receiver) {
+            Reflect.set(target, key, value, receiver)
+            activeEffect && activeEffect()
+          }
+        })
+        return proxy
+      }
+      const obj = reactive({
+        name: 'vvvv页面',
+        name2: '22222'
+      })
+      // 设计出一个effect函数,要求每次更新obj.name, 都会重新出发effect里面的函数
+      watchEffect(() => {
+        app.innerHTML = obj.name + obj.name2
+      })
+      var activeEffect // 存储当前的effect(暴露effect给外面函数使用)
+      function watchEffect(fn) {
+        const _effect = function reactiveEffect() {
+          activeEffect = _effect
+          fn()
+        }
+        _effect()
+      }
+      setTimeout(() => {
+        obj.name = 'vvvv6666'
+        obj.name2 = '测试'
+      }, 1000)
+    </script>
+  </body>
+</html>

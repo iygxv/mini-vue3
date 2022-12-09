@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+<body>
+  <script src="../packages/reactivity//dist/reactivity.global.js"></script>
+  <div id="app"></div>
+  <script>
+    const { reactive, effect }  = VueReactivity
+    const state = reactive({
+      name: 'vvv',
+      a: 1,
+      obj: {
+        b: 2
+      },
+      arr: [1, 2, 3]
+    })
+    // effect对数组的处理, 有一下几种
+    // 情况一:  长度的变化(收集的依赖: length, 触发的依赖是: length), 会重新触发effect
+    // effect(() => {
+    //   app.innerHTML = state.arr.length
+    // })
+    // setTimeout(() => {
+    //   state.arr.length = 10
+    // }, 1000)
+
+    // 情况二:  长度的变化(收集的依赖: length, 触发的依赖是: 新索引10) => 也会重新触发effect
+    // effect(() => {
+    //   app.innerHTML = state.arr.length
+    // })
+    // setTimeout(() => {
+    //   state.arr[10] = 10
+    // }, 1000)
+
+    // 情况三:  长度的变化(收集的依赖: 索引2, 触发的依赖是: 索引2) => 也会重新触发effect
+    // effect(() => {
+    //   app.innerHTML = state.arr[2]
+    // })
+    // setTimeout(() => {
+    //   state.arr[2] = 10
+    // }, 1000)
+
+    // 情况四:  长度的变化(收集的依赖: 索引2, 触发的依赖是: 索引1) => 不会触发effect, 不相干
+    // effect(() => {
+    //   app.innerHTML = state.arr[2]
+    // })
+    // setTimeout(() => {
+    //   state.arr[1] = 10
+    // }, 1000)
+
+    // 情况五:  长度的变化(收集的依赖: 索引2, 触发的依赖是: 新增索引10) => 不会触发effect, 不相干
+    // effect(() => {
+    //   app.innerHTML = state.arr[2]
+    // })
+    // setTimeout(() => {
+    //   state.arr[10] = 10
+    // }, 1000)
+
+
+    effect(() => {
+      app.innerHTML = state.arr.length
+    })
+    setTimeout(() => {
+      // push原理是对 : 新索引的添加 (跟情况二一样) 
+      state.arr.push(4, 5, 6)
+    }, 1000)
+
+  </script>
+</body>
+</html>

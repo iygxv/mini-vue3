@@ -1,4 +1,6 @@
-import { isObject, extend } from '../../shared/src/index';
+import { isObject, extend, isIntegerKey, hasOwn, isArray, hasChanged } from '../../shared/src/index';
+import { track, trigger } from './effect';
+import { trackOpTypes, TriggerOrTypes } from './operators';
 import { reactive, readonly } from './reactive';
 // 实现new Proxy(targets, handler)
 
@@ -15,6 +17,7 @@ function createGetter(isReadonly = false, shallow = false) {
     // 非仅读
     if (!isReadonly) {
       // 收集依赖
+      track(target, trackOpTypes.GET, key)
     }
     if (shallow) {
       return res
@@ -29,7 +32,13 @@ function createGetter(isReadonly = false, shallow = false) {
 
 function createSetter(shallow = false) {
   return function set(target, key, value, receiver) {
-    // let oldValue = target[key]
+    let oldVal = target[key]
+     // 我们需要区分是新增还是修改
+     /**
+      * 数组的情况, 例如: effect(() => state.arr[2])
+      * 然后修改为 state.arr[2] = 2 (修改)  state.arr[10] = 10(新增)
+      */
+    const hadKey = isArray(target) && isIntegerKey(key) ? Number(key) < target.length : hasOwn(target ,key)
     const res = Reflect.set(target, key, value, receiver) // 设置新的
     // 浅的, 直接返回就行
     if (shallow) {
@@ -38,6 +47,13 @@ function createSetter(shallow = false) {
     // 如果还是对象, 递归
     if (isObject(res)) {
       return reactive(res)
+    }
+    if(!hadKey) {
+      // 新增
+      trigger(target, TriggerOrTypes.ADD, key, value)
+    }else if(hasChanged(value, oldVal)) {
+      // 修改
+      trigger(target, TriggerOrTypes.SET, key, value, oldVal)
     }
     return res
   }

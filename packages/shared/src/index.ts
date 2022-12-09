@@ -6,3 +6,12 @@ export const extend = Object.assign
 
 // 比较值是否改变
 export const hasChanged = (value: any, oldValue: any): boolean => !Object.is(value, oldValue)
+
+// 是否数组
+export const isArray = Array.isArray
+// 是否为整数key
+export const isIntegerKey = (key) => parseInt(key) + '' === key
+
+// 是否有这个属性
+const hasOwnProperty = Object.prototype.hasOwnProperty
+export const hasOwn = (target, key) => hasOwnProperty.call(target, key)

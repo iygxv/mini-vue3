@@ -11,3 +11,7 @@ export {
   ref,
   shallowRef
 } from './ref'
+
+export {
+  effect
+} from './effect'
