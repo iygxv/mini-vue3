@@ -60,13 +60,13 @@
     //   state.arr[10] = 10
     // }, 1000)
 
-
+    // 情况六: 收集的依赖属性是length， 更改的属性也是索引1 (其他索引)
     effect(() => {
+      console.log(123)
       app.innerHTML = state.arr.length
     })
     setTimeout(() => {
-      // push原理是对 : 新索引的添加 (跟情况二一样) 
-      state.arr.push(4, 5, 6)
+      state.arr[1] = 10
     }, 1000)
 
   </script>

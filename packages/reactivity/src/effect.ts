@@ -82,11 +82,11 @@ export function track(target, type, key) {
   // console.log(targetMap);
 
 }
-console.log(targetMap);
+// console.log(targetMap);
 
 // 触发依赖(effect())
 export function trigger(target, type, key, value?, oldVal?) {
-  console.log(target, type, key, value, oldVal);
+  // console.log(target, type, key, value, oldVal);
 
   // 如果这个对象没有收集过effect
   const depsMap = targetMap.get(target)
@@ -102,15 +102,15 @@ export function trigger(target, type, key, value?, oldVal?) {
       })
     }
   }
-  console.log(depsMap)
+  // console.log(depsMap)
   // 特殊处理
   if (key === 'length' && isArray(target)) {
     
     
     // 如果对应的长度, 有依赖收集需要更新
     depsMap.forEach((dep, key) => {
-      console.log('key:' +key);
-      console.log('value:' + value);
+      // console.log('key:' +key);
+      // console.log('value:' + value);
       /**
        * value => 更改的长度(newValue)
        * key => 数组的长度

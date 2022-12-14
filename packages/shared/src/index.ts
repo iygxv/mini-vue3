@@ -17,3 +17,12 @@ export const isIntegerKey = (key) => parseInt(key) + '' === key
 // 是否有这个属性
 const hasOwnProperty = Object.prototype.hasOwnProperty
 export const hasOwn = (target, key) => hasOwnProperty.call(target, key)
+
+
+// 判断是否是事件
+const onRE = /^on[^a-z]/
+export const isOn = (key: string) => onRE.test(key)
+
+
+
+export * from './shapeFlags'
