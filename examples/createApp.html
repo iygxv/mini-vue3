@@ -10,24 +10,33 @@
     <script src="../packages/runtime-dom/dist/runtime-dom.global.js"></script>
     <div id="app"></div>
     <script>
-      const { createApp } = VueRuntimeDOM
+      const { createApp, h, ref } = VueRuntimeDOM
       let App = {
-        props: {
-          a: 1
-        },
         setup() {
-          return {
-            b: 3,
-            c: 12
+          const a = ref('zwf')
+          let fn = function() {
+            a.value = '123'
+            a.value = '456'
+            a.value = '789'
           }
-        },
-        render(proxy) {
-          console.log(proxy.b, proxy.a, proxy.c)
+          // console.log(a)
+          return () => {
+            return h('div', {onClick: fn}, a.value)
+          }
         }
       }
-      let app = createApp(App, {a: 'vvv'})
+      // debugger
+      let app = createApp(App)
       app.mount('#app')
       // console.log(proxy)
+      // createApp将组件变成vnode->在将vnode变成一个真实dom->挂载到页面上
+      // render方法的作用可以渲染一个虚拟节点,将他具体挂载到具体的dom元素上(核心patch)
+
+      // 组件创造的过程
+      // 1.创建实例
+      // 2.将数据解析到实例上
+      // 3.创建一个effect(副作用函数), 让render函数执行
+      // 优先级(setup中返回函数 > 组件上render函数 > template)
     </script>
   </body>
 </html>

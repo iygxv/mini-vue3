@@ -1,4 +1,4 @@
-import { createRender } from '@vue/runtime-core'  // 创建渲染的方法
+import { createRender, h } from '@vue/runtime-core'  // 创建渲染的方法
 import { nodeOps } from './nodeOps' // 节点操作
 import { patchProp } from './patchProp' // 属性操作
 
@@ -23,6 +23,8 @@ export function createApp(rootComponent, rootProps = null) {
   return app;
 }
 
+export * from '@vue/runtime-core' 
+export * from '@vue/reactivity' 
 
 // 用户调用的是runtime-dom -> runtime-core
 // runtime-dom 是为了解决平台差异的(浏览器)

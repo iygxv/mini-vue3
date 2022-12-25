@@ -12,6 +12,7 @@ let isFlushPending = false // 表示正在刷新
 function queueFlush() {
   if(!isFlushPending) {
     isFlushPending = true
+    // Promise.resolve()返回一个promise
     Promise.resolve().then(flushJobs)
   }
 }

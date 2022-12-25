@@ -147,9 +147,9 @@ export function trigger(target, type, key, value?, oldVal?) {
    }
   }  
   effects.forEach((effect: any) => {
-    console.log(effect.options);
     if (effect.options.scheduler) {
-      effect.options.scheduler()
+      // 自定义effect如何执行
+      effect.options.scheduler(effect)
     } else {
       effect()
     }

@@ -58,7 +58,10 @@ export function createRender(renderOptions) {
           if (m) {
             invokeArrayFns(m)
           }
+          console.log('挂载了');
         } else {
+          console.log('更新了');
+          
           let { bu, u } = instance
           if (bu) {
             invokeArrayFns(bu)
@@ -69,7 +72,6 @@ export function createRender(renderOptions) {
           // 获取到更新的tree
           let ProxyToUse = instance.proxy
           let nextTree = instance.render!.call(ProxyToUse, ProxyToUse)
-
           patch(prevTree, nextTree, container)
           if (u) {
             invokeArrayFns(u)
@@ -77,7 +79,7 @@ export function createRender(renderOptions) {
         }
       },
       {
-        scheduler: queueJob
+        scheduler: (effect) => queueJob(effect)
       }
     )
   }
