@@ -1,5 +1,3 @@
-import { createRender } from "./renderer";
-
 export {
   createRender
 } from './renderer'
@@ -7,3 +5,7 @@ export {
 export {
   h
 } from './h'
+
+export { getCurrentInstance } from './component'
+
+export * from './apiLifecycle'

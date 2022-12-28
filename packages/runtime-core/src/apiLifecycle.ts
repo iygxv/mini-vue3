@@ -29,14 +29,13 @@ const injectHook = (type, hook, target) => {
     hooks.push(wrap)
   }
 }
-const createHook =
-  (lifecycle) =>
-  (hook, target = currentInstance) => {
-    // target 标识是哪个函数
+const createHook = (lifecycle) =>
+    (hook, target = currentInstance) => {
+      // target 用来标识那个实例的钩子函数
 
-    // 给当前实例增加响应的生命周期
-    injectHook(lifecycle, hook, target)
-  }
+      // 给当前实例增加响应的生命周期
+      injectHook(lifecycle, hook, target)
+    }
 
 // 执行所有的hooks
 export const invokeArrayFns = (fns) => {

@@ -44,6 +44,7 @@ export function createRender(renderOptions) {
       function componentEffect() {
         // 每个组件都有一个effect, vue3是组件级更新
         if (!instance.isMounted) {
+          console.log('挂载了');
           let { bm, m } = instance
           // 挂载之前
           if (bm) {
@@ -58,7 +59,6 @@ export function createRender(renderOptions) {
           if (m) {
             invokeArrayFns(m)
           }
-          console.log('挂载了');
         } else {
           console.log('更新了');
           
@@ -129,6 +129,8 @@ export function createRender(renderOptions) {
     let e2 = c2.length - 1 // 获取新节点最大索引
 
     //  1.有key的情况: 从头开始比对 i<e1 && i<e2, 遇到不同的就停止(开头相同)
+    // a b c d
+    // a b
     while (i <= e1 && i <= e2) {
       const n1 = c1[i]
       const n2 = c2[i]
@@ -140,6 +142,8 @@ export function createRender(renderOptions) {
       i++
     }
     // 2.有key的情况: 从尾开始比对 i<=e1 && i<=e2, 遇到不同的就停止(结尾相同)
+    // a b c d
+    // c d
     while (i <= e1 && i <= e2) {
       const n1 = c1[e1]
       const n2 = c2[e2]

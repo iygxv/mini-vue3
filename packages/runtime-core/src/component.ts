@@ -53,7 +53,7 @@ function setupStatefulComponent(instance) {
   let { setup } = Component
   // 如果setup函数
   if (setup) {
-    currentInstance = instance
+    currentInstance = instance // currentInstance只存在于setup中
     let setupContext = createSetupContext(instance)
     const setupResult = setup(instance.props, setupContext)
     currentInstance = null
