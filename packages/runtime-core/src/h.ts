@@ -1,4 +1,4 @@
-import {  isObject } from '@vue/shared'
+import { isObject } from '@vue/shared'
 import { createVNode, isVnode } from './vnode'
 
 // h函数

@@ -93,19 +93,18 @@ export function createRender(renderOptions) {
     // 3.0创建一个effect, 让render函数执行
     setupRenderEffect(instance, container)
   }
-  //挂载孩子元素(递归处理)
+  // 挂载孩子元素(递归处理)
   const mountChildren = (children, el) => {
     for (let i = 0; i < children.length; i++) {
       let child = normalizeVNode(children[i])
       patch(null, child, el)
     }
   }
-
   // 挂载元素
   const mountElement = (vnode, container, anchor = null) => {
     // 递归渲染
     const { props, shapeFlag, type, children } = vnode
-    let el = hostCreateElement(type)
+    let el =(vnode.el = hostCreateElement(type))
     // 样式
     if (props) {
       for (const key in props) {
@@ -125,10 +124,9 @@ export function createRender(renderOptions) {
   // 核心diff(俩个数组对比)
   const patchKeyedChildren = (c1, c2, el) => {
     // 对特殊情况进行优化
-
     let i = 0 // 默认从头开始比对
-    let e1 = c1.children.length - 1 // 获取旧节点最大索引
-    let e2 = c2.children.length - 1 // 获取新节点最大索引
+    let e1 = c1.length - 1 // 获取旧节点最大索引
+    let e2 = c2.length - 1 // 获取新节点最大索引
 
     //  1.有key的情况: 从头开始比对 i<e1 && i<e2, 遇到不同的就停止(开头相同)
     while (i <= e1 && i <= e2) {
@@ -155,20 +153,20 @@ export function createRender(renderOptions) {
     }
     // 3.有key情况下: 同序列加载 i>e1&& i<=e2
     if (i > e1) {
-      // 老的少 新的多(有一方完成比对了)
+      // 3.1老的少 新的多(有一方完成比对了)
       if (i <= e2) {
         // 表示有新增的部分
         const nextPos = e2 + 1 // 参照物
-        const anchor = nextPos < c2.length ? c2[nextPos] : null
+        const anchor = nextPos < c2.length ? c2[nextPos].el : null
         while (i <= e2) {
           patch(null, c2[i], el, anchor)
         }
       }
     } else if (i > e2) {
-      // 老的多, 旧的少
+      // 3.2老的多, 新的少
       //卸载旧的
-      while (i <= e2) {
-        unmount(c1[i])
+      while (i <= e1) {
+        unmount(c1[i]) // 删除老的元素
         i++
       }
     } else {
@@ -190,7 +188,7 @@ export function createRender(renderOptions) {
       for (let i = s1; i <= el; i++) {
         const oldVNode = c1[i]
         let newIndex = keyToNewIndexMap.get(oldVNode.key)
-        if (newIndex) {
+        if (newIndex === undefined) {
           // 老的不在新的里面, 卸载
           unmount(oldVNode)
         } else {
@@ -205,7 +203,7 @@ export function createRender(renderOptions) {
       // 找出没有被patch过的新节点
       for (let i = toBePatched - 1; i >= 0; i--) {
         // 倒叙插入
-        let currentIndex = i + s2 // 找到对呀节点索引
+        let currentIndex = i + s2 // 找到对应节点索引
         let child = c2[currentIndex] // 找到对应的节点
         let anchor = currentIndex < c2.length ? c2[currentIndex + 1] : null // 找到参照物
         if (newIndexToOldIndexMap[i] === 0) {
@@ -270,7 +268,7 @@ export function createRender(renderOptions) {
           // 当前是元素(数组) 之前是数组 -> 俩个数组的对比 -> 核心diff算法
           patchKeyedChildren(c1, c2, el)
         } else {
-          // 不是数字, 没有孩子(特殊情况, 当前是null)
+          // 不是数组, 没有孩子(特殊情况, 当前是null)
           unmountChildren(c1) // 删除老的
         }
       } else {

@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <script src="../packages/runtime-dom/dist/runtime-dom.global.js"></script>
+    <div id="app"></div>
+    <script>
+      const { createApp, h, reactive } = VueRuntimeDOM
+      let App = {
+        setup() {
+          const state = reactive({
+            flag: true
+          })
+          setTimeout(() => {
+            state.flag = false
+          }, 1000)
+          // console.log(a)
+          return () => {
+            return state.flag
+              ? h('ul', {}, [
+                  h('li', { key: 'a' }, 'a'),
+                  h('li', { key: 'b' }, 'b'),
+                  h('li', { key: 'c' }, 'c'),
+                  h('li', { key: 'd' }, 'd')
+                ])
+              : h('ul', {}, [h('li', { key: 'a' }, 'a'), h('li', { key: 'b' }, 'b')])
+          }
+        }
+      }
+      // debugger
+      let app = createApp(App)
+      app.mount('#app')
+    </script>
+  </body>
+</html>

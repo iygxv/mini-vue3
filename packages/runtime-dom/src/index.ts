@@ -18,7 +18,7 @@ export function createApp(rootComponent, rootProps = null) {
     // 将组件 渲染成dom元素, 进行挂载
     mount(container)
   }
-  console.log(app);
+  // console.log(app);
   
   return app;
 }

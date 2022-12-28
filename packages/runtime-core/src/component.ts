@@ -18,7 +18,7 @@ export function createComponentInstance(vnode) {
     isMounted: false // 是否挂载过
   }
   instance.ctx = { _: instance } // 做代理
-  console.log(instance);
+  // console.log(instance);
   
   return instance
 }
