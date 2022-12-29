@@ -33,7 +33,7 @@
       function reactive(obj) {
         const proxy = new Proxy(obj, {
           get(target, key, receiver) {
-            return Reflect.get(target, [key], receiver)
+            return Reflect.get(target, key, receiver)
           },
           set(target, key, value, receiver) {
             Reflect.set(target, key, value, receiver)
