@@ -1,0 +1,24 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title></title>
+</head>
+<body>
+  <script src="../packages/compiler-dom/dist/compiler-dom.global.js"></script>
+  <script>
+    // 1.转化成ast  https://astexplorer.net/
+    // 2.transform => render函数
+    // 3.render函数 => 字符串拼接
+    const { baseCompiler } = VueCompilerDOM
+    const template = `hello
+    123
+    321`
+    const ast = baseCompiler(template)
+    console.log(ast)
+  </script>
+</body>
+</html>

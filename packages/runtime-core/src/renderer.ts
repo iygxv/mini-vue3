@@ -308,7 +308,7 @@ export function createRender(renderOptions) {
       // 组件没有上一次虚拟节点(挂载)
       mountComponent(n2, container)
     } else {
-      // 更新
+      // 组件更新
     }
   }
   // 处理文本ProcessText
