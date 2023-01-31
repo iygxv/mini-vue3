@@ -14,11 +14,7 @@
     // 2.transform => render函数
     // 3.render函数 => 字符串拼接
     const { baseCompiler } = VueCompilerDOM
-    const template = `
-    123
-    <a></a>
-    <b></b>
-    `
+    const template = `hello {{ name}} <div></div> world`
     const ast = baseCompiler(template)
     console.log(ast)
   </script>

@@ -34,7 +34,6 @@ function parseTag(context) {
     loc: getSelection(context, start)
   }
 }
-
 function parseElement(context) {
   let ele: any = parseTag(context)
 
@@ -80,11 +79,13 @@ function parseInterpolation(context) {
     content: {
       type: NodeTypes.SIMPLE_EXPRESSION,
       isStatic: false,
-      loc: getSelection(context, innerStart, innerEnd)
+      loc: getSelection(context, innerStart, innerEnd),
+      content
     },
     loc: getSelection(context, start)
   }
 }
+// 获取line column offset
 function getCursor(context) {
   let { line, column, offset } = context
   return {

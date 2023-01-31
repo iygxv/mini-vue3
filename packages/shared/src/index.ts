@@ -26,3 +26,4 @@ export const isOn = (key: string) => onRE.test(key)
 
 
 export * from './shapeFlags'
+export * from './patchFlags'
